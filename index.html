@@ -1003,10 +1003,13 @@ function loadQuiz(week) {
         const card = document.createElement('div');
         card.className = 'card';
         
-        // 1. Add the Question Text
         let contentHtml = `<h4>Q${idx + 1}: ${item.q}</h4>`;
         
-        // 2. Add the Table if it exists [cite: 74, 75]
+        // --- ADD IMAGE SUPPORT HERE ---
+        if (item.image) {
+            contentHtml += `<img src="${item.image}" alt="Question Image" style="max-width:100%; height:auto; border-radius:10px; margin:10px 0; border: 1px solid #444;">`;
+        }
+        
         if (item.table) {
             let tableHtml = '<table style="width:100%; border-collapse:collapse; margin:15px 0; font-size:13px; border:1px solid #444;">';
             item.table.forEach(row => {
@@ -1021,7 +1024,6 @@ function loadQuiz(week) {
 
         card.innerHTML = contentHtml;
 
-        // 3. Add the clickable options
         item.options.forEach((opt, oIdx) => {
             const btn = document.createElement('button');
             btn.className = 'option';
