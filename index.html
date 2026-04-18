@@ -174,96 +174,798 @@
 
 <script>
 // Quiz data from source [cite: 1, 3, 5, 12, 16]
+// Complete Quiz data for Week 1 and Week 2 [cite: 3, 83]
 const quizData = {
     1: [
-        { q: "Transported dust is not directly responsible for which of the following?", options: ["Human Respiratory Ailments", "Fertilization of Distant Forests", "Damaging Infrastructure", "Global Warming"], a: 3 },
-        { q: "Human activities have caused climate change and impacted ecosystems (IPCC-2014)?", options: ["True", "False"], a: 0 },
-        { q: "The normal extinction of species rate is between 0.1 and 1 species per 10,000 species per 100 years.", options: ["True", "False"], a: 0 },
-        { q: "Biomes are defined as a major ecological community of organisms adapted to particular climatic conditions.", options: ["True", "False"], a: 0 },
-        { q: "India is the third-largest fish-producing and second-largest aquaculture producer (FAO 2024).", options: ["True", "False"], a: 0 },
-        { q: "The Process through which methyl mercury is passed along the food chain is called:", options: ["Bio accumulation", "Bio magnification", "Bio conservation", "Bio acceleration"], a: 1 },
-        { q: "Key drivers of Land Change include Urbanization, Climate Change, Economic Development, and Tech.", options: ["I, III, IV only", "II, I, IV only", "IV, I, III only", "All of the above"], a: 3 },
-        { q: "Approximately 30% of Total Geographical Area of India is undergoing desertification/degradation.", options: ["True", "False"], a: 0 },
-        { q: "Economic Water Scarcity is where storage, treatment, and conveyance infrastructure are Lacking.", options: ["True", "False"], a: 0 },
-        { q: "Match: P-Eutrophication, Q-Organic pollutants, R-Salinity", table: [["Eutrophication", "Natural ageing of lakes"], ["Organic Pollutants", "Microbial decomposition"], ["Salinity", "Increase in dissolved minerals"]], options: ["P-II, Q-I, R-III", "P-II, Q-III, R-I", "P-III, Q-I, R-II"], a: 2 }
+        { 
+            q: "Transported dust is not directly responsible for which of the following? [cite: 7]", 
+            options: ["Human Respiratory Ailments", "Fertilization of Distant Forests", "Damaging Infrastructure", "Global Warming"], 
+            a: 3 
+        },
+        { 
+            q: "State True or False: As per the IPCC-2014, human activities have caused climate change and impacted ecosystems. [cite: 18]", 
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "State True or False: The normal extinction of species rate is assumed to be between 0.1 and 1 species per 10,000 species per 100 years. [cite: 23]", 
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "State True or False: Biomes are defined as a major ecological community of organisms adapted to a particular climatic or environmental condition across a large geographical area. [cite: 28]", 
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "State True or False: India is the third-largest fish-producing and second-largest aquaculture fish-producing country in the world (FAO 2024). [cite: 33]", 
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "The Process through which methyl mercury is passed along the food chain is called: [cite: 39]", 
+            options: ["Bio accumulation", "Bio magnification", "Bio conservation", "Bio acceleration"], 
+            a: 1 
+        },
+        { 
+            q: "What are the key drivers of the Land Change? (Urbanization, Climate Change, Economic Dev, Tech) [cite: 46, 60]", 
+            options: ["I, III, IV only", "II, I, IV only", "IV, I, III only", "All of the above"], 
+            a: 3 
+        },
+        { 
+            q: "State True or False: As per the Desertification and Land Degradation Atlas of India, approx 30% of Total Geographical Area is undergoing degradation. [cite: 61]", 
+            image: "india_degradation_map.png", // [cite: 62]
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "State True or False: The term Economic Water Scarcity is used where storage, treatment, and conveyance infrastructure are Lacking. [cite: 70]", 
+            options: ["True", "False"], 
+            a: 0 
+        },
+        { 
+            q: "Match group A with group B: [cite: 74]", 
+            table: [
+                ["Eutrophication", "Natural ageing process of lakes... enriched with nutrients [cite: 75]"],
+                ["Organic pollutants", "Microbial decomposition... deplete oxygen [cite: 75]"],
+                ["Salinity", "Increase in dissolved minerals... [cite: 75]"]
+            ],
+            options: ["P-II, Q-I, R-III", "P-II, Q-III, R-I", "P-III, Q-I, R-II"], 
+            a: 2 // [cite: 79]
+        }
     ],
     2: [
-        { q: "The Brundtland Report (Our Common Future) was released by:", options: ["IPCC", "UNEP", "WCED", "World Bank"], a: 2 },
-        { q: "Oil & gas transportation pipeline in eco-sensitive areas falls under:", options: ["Category A", "Category B", "Category B1", "Category B2"], a: 0 },
-        { q: "Any project in Category 'A' will be treated as 'B' if located within 10km of Protected Areas.", options: ["True", "False"], a: 1 },
-        { q: "Townships covering area ≥50 hectares fall under Category A (EIA 2006).", options: ["True", "False"], a: 1 },
-        { q: "What is the correct sequence of the EIA process?", options: ["Project screening → Prediction → Evaluation → Review → Decision", "Screening → Evaluation → Prediction → Review → Decision", "Prediction → Screening → Evaluation → Review → Decision", "Screening → Prediction → Review → Evaluation → Decision"], a: 0 },
-        { q: "Match Nature/Magnitude: Direct or Indirect vs High/Moderate/Low.", options: ["Nature-Direct/Indirect; Magnitude-High/Mod/Low", "Nature-High/Mod; Magnitude-Direct/Indirect"], a: 0 },
-        { q: "Match Timing/Uncertainty: Immediate/Long-term vs Low/High probability.", options: ["Timing-Immediate; Uncertainty-Low/High prob", "Timing-Low/High prob; Uncertainty-Immediate"], a: 0 },
-        { q: "The concept of 'equality and deprivation' emphasizes that:", options: ["Benefits are equal", "Nobody experiences loss", "Impacts are uneven", "Only total benefits matter"], a: 2 },
-        { q: "UK Equality Act requires impact reviews to:", options: ["Ignore social impacts", "Treat all the same", "Consider needs of persons with disabilities", "Apply only to private companies"], a: 2 },
-        { q: "Cultural Impact Assessment (CIA) in New Zealand documents Māori cultural values.", options: ["True", "False"], a: 0 }
+        { 
+            q: "The Brundtland Report (Our Common Future) was released by which body? [cite: 89]", 
+            options: ["IPCC", "UNEP", "WCED", "World Bank"], 
+            a: 2 // [cite: 93]
+        },
+        { 
+            q: "Oil & gas transportation pipeline passing through national parks/sanctuaries/ecologically sensitive areas falls under: [cite: 94, 96]", 
+            options: ["Category A", "Category B", "Category B1", "Category B2"], 
+            a: 0 // [cite: 100]
+        },
+        { 
+            q: "State True or False: Any project in Category 'A' will be treated as 'B' if located within 10 km of Protected Areas. [cite: 101]", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 104]
+        },
+        { 
+            q: "State True or False: Townships and Area Development projects covering an area >=50 hectares fall under Category A (EIA 2006). [cite: 105]", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 108]
+        },
+        { 
+            q: "What is the correct sequence of the EIA process? [cite: 110]", 
+            options: [
+                "Screening → Prediction → Evaluation → Review → Decision [cite: 111]",
+                "Screening → Evaluation → Prediction → Review → Decision [cite: 112]",
+                "Prediction → Screening → Evaluation → Review → Decision [cite: 113]",
+                "Screening → Prediction → Review → Evaluation → Decision [cite: 114]"
+            ], 
+            a: 0 // [cite: 115]
+        },
+        { 
+            q: "Match Nature, Magnitude, Extent, and Duration correctly: [cite: 117]", 
+            options: [
+                "Nature-Direct/Indirect; Magnitude-High/Mod/Low; Extent-Local/Global; Duration-Temp/Perm [cite: 128]",
+                "Nature-High/Mod/Low; Magnitude-Direct/Indirect; Extent-Local/Global; Duration-Temp/Perm [cite: 129]"
+            ], 
+            a: 0 // [cite: 132]
+        },
+        { 
+            q: "Match Timing, Uncertainty, Reversibility, and Significance correctly: [cite: 133]", 
+            options: [
+                "Timing-Immediate/Long-term; Uncertainty-Low/High prob; Reversibility-Rev/Irrev; Significance-Unimportant/Important [cite: 145]",
+                "Timing-Low likelihood; Uncertainty-Immediate; Reversibility-Unimportant; Significance-Reversible [cite: 146]"
+            ], 
+            a: 0 // [cite: 149]
+        },
+        { 
+            q: "The concept of 'equality and deprivation' in impact assessment emphasizes that: [cite: 151]", 
+            options: [
+                "Development benefits are always equal [cite: 152]",
+                "Economic growth means nobody loses [cite: 153]",
+                "Development impacts are uneven; some groups benefit while others face losses [cite: 154]",
+                "Impacts are only total benefits [cite: 155]"
+            ], 
+            a: 2 // [cite: 156]
+        },
+        { 
+            q: "In the UK, a legal framework like the Equality Act primarily requires that impact reviews: [cite: 157]", 
+            options: [
+                "Consider only environmental impacts [cite: 158]",
+                "Treat everyone exactly the same [cite: 159]",
+                "Consider needs of persons with disabilities and prevent discrimination [cite: 160]",
+                "Apply only to private companies [cite: 161]"
+            ], 
+            a: 2 // [cite: 162]
+        },
+        { 
+            q: "State True or False: A Cultural Impact Assessment (CIA) in New Zealand documents Māori cultural values and assesses potential impacts. [cite: 163]", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 166]
+        }
     ],
-    3: [
-        { q: "UNCLOS III is associated with:", options: ["Aviation safety", "Comprehensive legal regime for oceans", "Ban on nuclear power", "Fisheries only"], a: 1 },
-        { q: "The US Endangered Species Act (ESA) was enacted in 1973.", options: ["True", "False"], a: 0 },
-        { q: "UNESCO is the lead agency for UN Decade of Education for Sustainable Development.", options: ["True", "False"], a: 0 },
-        { q: "Nagoya Protocol (2010) core purpose is:", options: ["Carbon credits", "Access and Benefit-Sharing (ABS)", "Nuclear ban", "Fisheries"], a: 1 },
-        { q: "Effective EIA system requires (Select All):", options: ["Broad definition of environment", "Duty to mitigate", "Mitigation in EIA report", "Procedural guidance", "All of the above"], a: 4 },
-        { q: "Rio Declaration (1992) is soft law; Espoo Convention (1991) is binding.", options: ["True", "False"], a: 0 },
-        { q: "Governance approaches to mitigate Air Pollution include:", options: ["Technology standards", "Planning regimes", "Market interventions", "Cooperative forums", "All of the above"], a: 4 },
-        { q: "WHO Guideline Values are considered:", options: ["Advisory Air Quality Standards", "US Standards", "EU Limit Values", "National Standards"], a: 0 }
+3: [
+        { 
+            q: "The Third United Nations Conference on the Law of the Sea (UNCLOS III), which started in 1973, is most closely associated with which outcome?", 
+            options: [
+                "A treaty focused mainly on aviation safety", 
+                "A comprehensive legal regime for oceans covering maritime zones, navigation, and marine protection", 
+                "A global agreement to ban nuclear power stations", 
+                "A treaty limited to fisheries only"
+            ], 
+            a: 1 // [cite: 177, 183]
+        },
+        { 
+            q: "State True or False: The United States enacted the Endangered Species Act (ESA) in 1973 to conserve endangered species and their ecosystems.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 184, 187]
+        },
+        { 
+            q: "State True or False: In 2003, the UNGA designated UNESCO as the lead agency for the Decade of Education for Sustainable Development.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 189, 192]
+        },
+        { 
+            q: "Select the correct statements about the Nagoya Protocol (2010): (I) Adopted in Japan, (II) Purpose is Access and Benefit-Sharing (ABS), (III) Sets measures for genetic resources.", 
+            options: ["I only", "II and III only", "I, II, and III", "None of the above"], 
+            a: 2 // [cite: 193, 200]
+        },
+        { 
+            q: "Which elements belong to the legal framework for an effective EIA system?", 
+            options: [
+                "Broad definition of environment", 
+                "Duty to mitigate adverse effects", 
+                "Requirement for mitigation in EIA reports", 
+                "All of the above"
+            ], 
+            a: 3 // [cite: 203, 208]
+        },
+        { 
+            q: "State True or False: The Rio Declaration (1992) is soft law, while the Espoo Convention (1991) is a binding international treaty.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 209, 212]
+        },
+        { 
+            q: "Policy instruments can be aimed at which mechanisms?", 
+            options: [
+                "Amending available alternatives", 
+                "Changing impacts of alternatives", 
+                "Influencing evaluation of outcomes", 
+                "All of the above"
+            ], 
+            a: 3 // [cite: 214, 219]
+        },
+        { 
+            q: "State True or False: A cluster of policy refers to one single policy instrument aimed at achieving multiple unrelated goals.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 220, 223]
+        },
+        { 
+            q: "Which governance approaches can help mitigate Air Pollution?", 
+            options: [
+                "Technology standards", 
+                "Planning regimes", 
+                "Market interventions", 
+                "All of the above"
+            ], 
+            a: 3 // [cite: 224, 229]
+        },
+        { 
+            q: "Which of the following is an Advisory Air Quality Standard?", 
+            options: [
+                "WHO Guideline Values", 
+                "US Standards", 
+                "EU Limit Values", 
+                "National Ambient Air Quality Standards"
+            ], 
+            a: 0 // [cite: 232, 237]
+        }
     ],
     4: [
-        { q: "Presence of E. coli in drinking water is a sign of:", options: ["Industrial contamination", "Pesticide contamination", "Fecal contamination", "High hardness"], a: 2 },
-        { q: "Water (Prevention and Control of Pollution) Act was enacted in:", options: ["1974", "1981", "1986", "1972"], a: 0 },
-        { q: "Bonn Convention (CMS) suggests EIA should identify impacts on:", options: ["Local residents", "Industrial costs", "Migratory species habitats/routes", "Terrestrial only"], a: 2 },
-        { q: "Marine Protected Areas (MPAs) are ocean spaces where human activities are strictly regulated.", options: ["True", "False"], a: 0 },
-        { q: "Which law is India's 'Umbrella' environmental legislation?", options: ["Forest Act 1980", "Wildlife Act 1972", "Environment (Protection) Act 1986", "Indian Forest Act 1927"], a: 2 }
+        { 
+            q: "Presence of E. coli in drinking water is a sign of:", 
+            options: ["Industrial contamination", "Pesticide contamination", "Fecal contamination", "High hardness"], 
+            a: 2 // [cite: 246, 251]
+        },
+        { 
+            q: "State True or False: The Water Act (1974) provides for the prevention and control of water pollution and maintaining wholesomeness of water.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 253, 255]
+        },
+        { 
+            q: "Under the Bonn Convention (CMS), how should EIA support conservation of migratory species?", 
+            options: [
+                "Documenting mortality only after project starts", 
+                "CMS is irrelevant to EIA", 
+                "Identify impacts on migratory species, habitats, and routes", 
+                "Applies only to terrestrial species"
+            ], 
+            a: 2 // [cite: 257, 263]
+        },
+        { 
+            q: "Which Ramsar instrument supports using EIA/SEA to manage development impacts on wetlands?", 
+            options: [
+                "Ramsar history page", 
+                "Impact Assessment Handbook/guidance on biodiversity", 
+                "Treaty rule banning all development", 
+                "None"
+            ], 
+            a: 1 // [cite: 266, 271]
+        },
+        { 
+            q: "Which statement matches the EU Commission description of MSFD's role?", 
+            options: [
+                "It is a fisheries quota law", 
+                "It is a voluntary guidance note", 
+                "First EU legislative instrument to protect marine biodiversity in its entirety", 
+                "Applies only to rivers"
+            ], 
+            a: 2 // [cite: 274, 280]
+        },
+        { 
+            q: "State True or False: Marine Protected Areas (MPAs) are ocean spaces where human activities are more strictly regulated for conservation.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 281, 284]
+        },
+        { 
+            q: "The Noise Pollution (Regulation and Control) Rules, 2000 were issued under which parent law?", 
+            options: ["Water Act 1974", "Air Act 1981", "Environment (Protection) Act 1986", "Wildlife Act 1972"], 
+            a: 2 // [cite: 286, 291]
+        },
+        { 
+            q: "State True or False: The Rules of Environment (Protection) Act, 1986 were last amended in 2000.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 293, 297]
+        },
+        { 
+            q: "State True or False: Gross Ecosystem Product (GEP) includes ecosystem contributions such as provisioning and regulating services.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 299, 302]
+        },
+        { 
+            q: "Which law is commonly described as India's 'Umbrella' environmental legislation?", 
+            options: [
+                "Forest Act 1980", 
+                "Wild Life Act 1972", 
+                "Environment (Protection) Act 1986", 
+                "Indian Forest Act 1927"
+            ], 
+            a: 2 // [cite: 304, 309]
+        }
     ],
-    5: [
-        { q: "Eminent domain means:", options: ["Regulation without compensation", "Taking private property for public use with compensation", "Private company power", "Criminal seizure"], a: 1 },
-        { q: "Resettlement in ESIA refers to:", options: ["Voluntary moving", "Temporary migration", "Physical relocation/loss of assets due to land acquisition", "Disaster rebuilding"], a: 2 },
-        { q: "RFCTLARR Act 2013 restricts acquisition of irrigated multi-cropped land for food security.", options: ["True", "False"], a: 0 },
-        { q: "Public hearing during SIA is meant to:", options: ["Finalize cash", "Approve design", "Ascertain views of affected families", "Issue land award"], a: 2 },
-        { q: "World Bank social risks include created/deepened inequality and social conflict.", options: ["True", "False"], a: 0 },
-        { q: "LVIA technical guidance note TGN 06/19 is by:", options: ["Hong Kong EPD", "The Landscape Institute", "World Bank", "IFC"], a: 1 }
+5: [
+        { 
+            q: "In a Bank-financed Road project, national law allows construction after simple approval, but EA identifies high risk to sacred features. Under World Bank ESF, the borrower should:", 
+            options: [
+                "Follow national law only", 
+                "Align with national law AND meet Bank requirements for cultural heritage risk management", 
+                "Ignore EA findings because heritage is 'intangible'", 
+                "Keep findings confidential to avoid controversy"
+            ], 
+            a: 1 // [cite: 320, 322, 326]
+        },
+        { 
+            q: "State True or False: If a cultural site is not on an official national list/register, EA should automatically treat the area as 'no-risk'.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 328, 331]
+        },
+        { 
+            q: "'Eminent domain' most accurately means:", 
+            options: [
+                "Govt power to regulate property without compensation", 
+                "Govt power to take private property for public use with just compensation", 
+                "Private company power to buy land at any price", 
+                "Court order to seize property for criminal cases"
+            ], 
+            a: 1 // [cite: 333, 335, 338]
+        },
+        { 
+            q: "State True or False: If a household signs a compensation receipt, the impact cannot be considered economic displacement.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 339, 343]
+        },
+        { 
+            q: "In EIA/ESIA, 'resettlement' most accurately refers to:", 
+            options: [
+                "Voluntary movement for jobs", 
+                "Temporary migration during construction", 
+                "Physical relocation, loss of assets, or loss of access to livelihood resulting from land acquisition", 
+                "Only rebuilding houses after a natural disaster"
+            ], 
+            a: 2 // [cite: 345, 349, 351]
+        },
+        { 
+            q: "State True or False: The RFCTLARR Act, 2013 contains a special provision to safeguard food security that restricts acquisition of irrigated multi-cropped land.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 353, 356]
+        },
+        { 
+            q: "Under RFCTLARR Act, 2013, what is the purpose of the public hearing during Social Impact Assessment (SIA)?", 
+            options: [
+                "To finalize compensation amounts", 
+                "To approve the technical design", 
+                "To ascertain the views of affected families for the SIA report", 
+                "To issue the final land acquisition award"
+            ], 
+            a: 2 // [cite: 357, 360, 361]
+        },
+        { 
+            q: "International Association for Impact Assessment (IAIA) 2015 SIA guidance is mainly intended to:", 
+            options: [
+                "Calculate air dispersion modelling", 
+                "Assess and manage social impacts of projects as good practice", 
+                "Set national compensation rates", 
+                "Certify companies under ISO standards"
+            ], 
+            a: 1 // [cite: 363, 365, 368]
+        },
+        { 
+            q: "According to the World Bank's Social Analysis Sourcebook, 'social risks' may include:", 
+            options: [
+                "Only financial cost overruns", 
+                "Only impacts on air quality", 
+                "The possibility that a project may create, reinforce, or deepen inequality and social conflict", 
+                "Only natural disasters"
+            ], 
+            a: 2 // [cite: 369, 372, 374]
+        },
+        { 
+            q: "Which source is an example of professional advice specifically about photography and photomontage for LVIA?", 
+            image: "lvia_technical_guidance.png", // [cite: 376, 379]
+            options: [
+                "Hong Kong EIAO Annex 10", 
+                "Hong Kong EIAO Annex 18", 
+                "Landscape Institute's TGN 06/19 'Visual Representation of Development Proposals'", 
+                "Hong Kong EPD Guidance Note No. 8"
+            ], 
+            a: 2 // [cite: 379, 381]
+        }
     ],
     6: [
-        { q: "Main purpose of EIA screening:", options: ["Final report", "Decide if EIA is required", "Approve project", "Consultation"], a: 1 },
-        { q: "Case-by-case screening allows:", options: ["Fixed thresholds", "Common sense/professional judgment", "No discretion", "Speed"], a: 1 },
-        { q: "Photomontage is:", options: ["Sketch", "Superimposed image on a real photo", "Satellite map", "Mitigation table"], a: 1 },
-        { q: "Causal network diagram represents:", options: ["List of parameters", "Cause-and-effect nodes/links", "Financial model", "Legal checklist"], a: 1 },
-        { q: "Biosphere Reserve zones are:", options: ["Uniform", "Two: Protect/Industrial", "Core, Buffer, Transition", "Core only"], a: 2 },
-        { q: "Cultural keystone species indicator:", options: ["Chlorophyll", "Presence in language/ceremonies", "Fast reproduction", "Large range"], a: 1 },
-        { q: "Equator Principles are:", options: ["Govt law", "Engineering standard", "Risk management framework for financial institutions", "UN treaty"], a: 2 }
+        { 
+            q: "State True or False: Ethical EIA is mainly required when technical impacts dominate, and ethical concerns are minimal.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 390, 393]
+        },
+        { 
+            q: "What is the main purpose of EIA screening?", 
+            options: [
+                "To prepare the final EIA report", 
+                "To decide whether an EIA is required and what level is needed", 
+                "To approve the project automatically", 
+                "To replace public consultation"
+            ], 
+            a: 1 // [cite: 394, 396, 399]
+        },
+        { 
+            q: "Which statement best describes the case-by-case approach to screening?", 
+            options: [
+                "Relies only on fixed thresholds", 
+                "Allows common sense and professional judgment to be applied", 
+                "Removes the need for decision-making discretion", 
+                "Always faster than threshold screening"
+            ], 
+            a: 1 // [cite: 400, 402, 405]
+        },
+        { 
+            q: "Which action best improves transparency when uncertainty exists in impact prediction?", 
+            options: [
+                "Avoid reporting uncertain results", 
+                "State key assumptions used in the prediction", 
+                "Present only a single 'most likely' value", 
+                "Replace prediction with opinions"
+            ], 
+            a: 1 // [cite: 406, 408, 411]
+        },
+        { 
+            q: "Which description best defines a photomontage used in environmental or visual impact assessment?", 
+            options: [
+                "Hand-drawn sketch without photos", 
+                "Superimposed image of proposed structure on a real photo", 
+                "Satellite map for project cost", 
+                "Table of mitigation measures"
+            ], 
+            a: 1 // [cite: 413, 415, 419]
+        },
+        { 
+            q: "Threshold-based screening tends to increase consistency in which of the following?", 
+            options: ["Between locations", "Between decisions within locations", "Between project types", "All of the above"], 
+            a: 3 // [cite: 420, 424, 426]
+        },
+        { 
+            q: "Which option represents a non-acceptable environmental impact in an EIA framework?", 
+            options: [
+                "Impacts within carrying capacity", 
+                "Wise use of natural resources", 
+                "Degradation of life-support systems and loss of biodiversity", 
+                "Reasonable sharing of costs/benefits"
+            ], 
+            a: 2 // [cite: 427, 430, 432]
+        },
+        { 
+            q: "Which factor most directly supports a significance judgment based on verifiable information?", 
+            options: ["Political repercussions", "Scientific evidence", "Public perception", "Past perceptions"], 
+            a: 1 // [cite: 433, 435, 438]
+        },
+        { 
+            q: "Which statement best describes a 'causal network' used in EIA?", 
+            options: [
+                "List of parameters without relationships", 
+                "Diagram representing cause-and-effect relationships among actions and impacts using nodes/links", 
+                "Financial model for profitability", 
+                "Legal checklist"
+            ], 
+            a: 1 // [cite: 444, 446, 450]
+        },
+        { 
+            q: "Which is most consistent with World Bank ESF language on cultural heritage?", 
+            options: [
+                "Natural areas cannot be cultural heritage", 
+                "Natural areas with cultural/spiritual value (e.g. sacred groves) can fall within cultural heritage", 
+                "Only monuments and museums count", 
+                "Relevant only in urban projects"
+            ], 
+            a: 1 // [cite: 451, 453, 458]
+        },
+        { 
+            q: "Which statement describes how a Biosphere Reserve is organized?", 
+            options: [
+                "One uniform zone", 
+                "Two zones: protected and industrial", 
+                "Three zones: core (strict), buffer (compatible), transition (sustainable)", 
+                "Only a protected core exists"
+            ], 
+            a: 2 // [cite: 466, 469, 472]
+        },
+        { 
+            q: "Which is often used as an indicator for a cultural keystone species?", 
+            options: [
+                "Highest chlorophyll content", 
+                "Strong presence in language, ceremonies, and traditions", 
+                "Fastest reproduction rate", 
+                "Largest geographic range"
+            ], 
+            a: 1 // [cite: 486, 488, 491]
+        },
+        { 
+            q: "As per IFC Performance Standard 6 (PS6), the impact assessment should include:", 
+            table: [
+                ["I", "Direct Impacts"],
+                ["II", "Indirect Impacts"],
+                ["III", "Residual Impacts"],
+                ["IV", "Cumulative Impacts"]
+            ], // [cite: 502, 504, 506, 508, 510]
+            options: ["I, III, IV only", "II, I, III only", "II, III, I only", "All of the above"], 
+            a: 3 // [cite: 515, 516]
+        },
+        { 
+            q: "The Equator Principles are best described as:", 
+            options: [
+                "A government law", 
+                "Technical engineering standard", 
+                "Risk management framework for financial institutions to manage E&S risks", 
+                "A UN treaty"
+            ], 
+            a: 2 // [cite: 517, 520, 523]
+        }
     ],
-    7: [
-        { q: "Analysis of climatic factors for adaptation includes extremes and changes in norms.", options: ["I, III only", "II, I only", "II, III only", "All of the above"], a: 3 },
-        { q: "Match Odour models: P-Risk, Q-Semi-quant, R-Dispersion.", options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], a: 2 },
-        { q: "Match Hydro: P-Base flow, Q-Return period, R-Drainage basin.", options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], a: 2 },
-        { q: "Sustainable development emphasizes balance between environment, economy, and society.", options: ["True", "False"], a: 0 },
-        { q: "Intergenerational equity refers to fair use of resources for future generations.", options: ["True", "False"], a: 0 },
-        { q: "If multi-crop land is acquired (Sec 10), the Act requires:", options: ["Cash only", "Job guarantee", "Equivalent wasteland development/investment", "Relocation"], a: 2 }
+7: [
+        { 
+            q: "Analysis of climatic factors that affect adaptation includes:", 
+            options: ["Extremes in short-term weather", "Extremes in long-term variability", "Changes in average climate norms", "All of the above"], 
+            a: 3 // [cite: 551]
+        },
+        { 
+            q: "Match the following Odour effect assessment models:", 
+            table: [
+                ["P. Risk-based assessment", "II. We look at the pathway and the receptor, and then we conclude."],
+                ["Q. Semi-quantitative assessment", "III. Lookup tables to predict the odor concentrations"],
+                ["R. Dispersion modeling", "I. Odour concentrations predicted and compared to benchmark values"]
+            ], // [cite: 554]
+            options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], 
+            a: 2 // [cite: 561]
+        },
+        { 
+            q: "Match the following Hydrological terms:", 
+            table: [
+                ["P. Base flow", "II. Movement of water between the surface body and the groundwater"],
+                ["Q. Return period", "III. Chances of the same flow of rain increasing in a year"],
+                ["R. Drainage basin", "I. Catchments separated by a watershed boundary highest points of land"]
+            ], // [cite: 563]
+            options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], 
+            a: 2 // [cite: 568]
+        },
+        { 
+            q: "State True or False: Greenhouse gases are constituents of the atmosphere that absorb and emit radiation at a specific wavelength within the infrared spectrum.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 572]
+        },
+        { 
+            q: "Match the Purpose vs Activities in EIA context:", 
+            table: [
+                ["P. Mitigation (climate change)", "II. Human intervention to reduce sources or enhance sinks of GHG"],
+                ["Q. Resilience", "III. Capacity of systems to cope with hazardous events while maintaining essential functions"],
+                ["R. Climate change", "I. Any process that removes greenhouse gases or aerosols from the atmosphere"]
+            ], // [cite: 574]
+            options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], 
+            a: 2 // [cite: 581]
+        },
+        { 
+            q: "Sustainable development emphasizes:", 
+            options: ["Economic growth only", "Environmental protection only", "Balance between environment, economy, and society", "Industrial expansion"], 
+            a: 2 // [cite: 587]
+        },
+        { 
+            q: "Intergenerational equity refers to:", 
+            options: ["Equality within the present generation", "Fair use of resources for future generations", "Industrial equality", "Technological equality"], 
+            a: 1 // [cite: 606]
+        },
+        { 
+            q: "Which statement best represents 'issue-specific impacts will matter' as a criterion for significance?", 
+            options: ["All impacts treated identically", "Issues like irreversible damage or health risk require stricter thresholds", "Only economic issues matter", "Only short-term impacts matter"], 
+            a: 1 // [cite: 624]
+        },
+        { 
+            q: "Primary purpose of Human Health Risk Assessment (HHRA) is:", 
+            options: ["Measure biodiversity loss", "Set building design standards", "Estimate probability of adverse health effects in humans exposed to chemicals", "Identify impacts on wildlife"], 
+            a: 2 // [cite: 647]
+        },
+        { 
+            q: "If multi-crop irrigated land is acquired under Section 10(2), the Act requires:", 
+            options: ["Cash compensation only", "Job guarantees only", "Develop equivalent culturable wasteland OR deposit amount for agricultural investment", "Mandatory relocation"], 
+            a: 2 // [cite: 654]
+        }
     ],
     8: [
-        { q: "Priority ecosystems are those beneficiaries depend on to a great extent with limited alternatives.", options: ["True", "False"], a: 0 },
-        { q: "Scoping determines study area, methodologies, and key issues.", options: ["True", "False"], a: 0 },
-        { q: "Valued Ecosystem Components (VEC) qualify by ecological or socioeconomic value.", options: ["True", "False"], a: 0 },
-        { q: "Ecosystem service supply is max amount drawn without damaging capacity.", options: ["True", "False"], a: 0 },
-        { q: "Implementation Monitoring checks planning approvals and mitigation carried out.", options: ["True", "False"], a: 0 },
-        { q: "Agriculture is the sector that consumes the most water.", options: ["True", "False"], a: 0 },
-        { q: "Habitat is a condition required to support a species/community in a location.", options: ["True", "False"], a: 0 }
+        { 
+            q: "Priority ecosystems are those for which changes are most likely to affect well-being because beneficiaries depend on them and have limited alternatives.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 692]
+        },
+        { 
+            q: "Scoping stage determines which of the following? (I. Study area, II. Methodologies, III. Significance levels, IV. Key ecological issues)", 
+            options: ["I, III, IV only", "II, I, III only", "III, I, IV only", "All of the above"], 
+            a: 3 // [cite: 708]
+        },
+        { 
+            q: "State True or False: Valued Ecosystem Components (VEC) are species or sites that qualify in terms of conservation value or socioeconomic value.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 713]
+        },
+        { 
+            q: "State True or False: Ecosystem service supply is the maximum amount that can be drawn without damaging future productive capacity.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 736]
+        },
+        { 
+            q: "According to World Bank framing, what is the best EA approach for suspected undocumented archaeological remains?", 
+            options: ["Rely only on national register", "Address only during construction", "Use scoping/baseline to identify risks beyond listing and require expert assessment", "Delay project indefinitely"], 
+            a: 2 // [cite: 749]
+        },
+        { 
+            q: "State True or False: Implementation Monitoring involves checking that the project follows planning approvals and mitigation is carried out.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 759]
+        },
+        { 
+            q: "Which sector consumes the most amount of water?", 
+            options: ["Manufacturing", "Agriculture", "Construction", "Technology"], 
+            a: 1 // [cite: 789]
+        },
+        { 
+            q: "The Significance of Population changes are influenced by: (I. Existing structure, II. Immigrant distribution, III. Timing)", 
+            options: ["I, III only", "II, I, only", "II, III only", "All of the above"], 
+            a: 3 // [cite: 799]
+        },
+        { 
+            q: "Which aspects are considered for EIA review? (I. Compliance with ToR, II. Technically sound info, III. Public comments, IV. Key findings)", 
+            options: ["I, II only", "I, III only", "I, III, IV only", "All of the Above"], 
+            a: 3 // [cite: 811]
+        },
+        { 
+            q: "State True or False: Habitat is a condition required to support a species or community in a particular location.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 815]
+        }
+    ],
+9: [
+        { 
+            q: "State True or False: Priority ecosystems are those for which changes due to a project are most likely to affect the well-being of the beneficiaries because they depend on them to a great extent and have limited alternatives.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 822]
+        },
+        { 
+            q: "State True or False: InVEST (Integrated Valuation of Environmental Services and Tradeoffs) is a suite model used to map and value natural goods and services that sustain and fulfill human life.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 827]
+        },
+        { 
+            q: "The important material information required for EIA purposes includes: (I) Geology of coastal zones, (II) Topography and bathymetry, (III) Distribution of mobile and non-mobile sediments.", 
+            options: ["I, II only", "II, III only", "I, III only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 838]
+        },
+        { 
+            q: "Benthic (Seabed) habitats communities exhibit appreciable variations due to: (I) Sustainable type, (II) Water movement, (III) Salinity/turbidity, (IV) Temp/Clarity, (V) Geothermal activity.", 
+            options: ["I, II, III, IV only", "II, III, IV, V only", "II, III, III, V only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 858]
+        },
+        { 
+            q: "The Impact of Urban Development include: (I) Run-Off, (II) Soil Erosion, (III) Nutrients and toxic pollutant loadings in estuaries (bioaccumulation, eutrophication).", 
+            options: ["I, II only", "II, III only", "I, III only", "All of the above"], 
+            a: 3 // Correct Answer: c/d) All of the above [cite: 871]
+        },
+        { 
+            q: "Impacts associated with dredging and disposal include: (I) Turbidity, (II) Toxin/Nutrient release, (III) Physical damage/loss, (IV) Released material problems, (V) Shoreline erosion risk.", 
+            options: ["I, II, III, IV only", "II, III, IV, V only", "I, III, IV, V only", "All of the above"], 
+            a: 3 // Correct Answer: c/d) All of the above [cite: 886]
+        },
+        { 
+            q: "Match the following Noise terms:", 
+            table: [
+                ["P. Noise", "IV. Essentially an unwanted sound"],
+                ["Q. Noise Impact Assessment", "I. Quantifying and objectifying people's personal/subjective responses"],
+                ["R. Sound Frequency", "II. How quickly the air vibrates (cycles per sec or Hertz)"],
+                ["S. Audible Frequency", "III. Approximately 20Hz to 20,000Hz"]
+            ], // Based on [cite: 888]
+            options: ["P-I, Q-II, R-III, S-IV", "P-II, Q-III, R-IV, S-I", "P-IV, Q-III, R-II, S-I", "P-IV, Q-I, R-II, S-III"], 
+            a: 3 // Correct Answer: d) [cite: 898]
+        },
+        { 
+            q: "Factors influencing Noise Impacts are: (I) Level of Sound, (II) Context of Location, (III) Distance, (IV) Presence of Obstructions (buildings/trees).", 
+            options: ["I, II, III only", "II, III, IV only", "I, II, IV only", "All of the above"], 
+            a: 3 // Correct Answer: c/d) All of the above [cite: 909]
+        },
+        { 
+            q: "On Rail and Tramway networks, the pertinent factors are: (I) Line capacity, (II) Station capacity, (III) Platform length, (IV) Rolling stock passenger capacity.", 
+            options: ["I, II, III only", "II, III, IV only", "I, II, IV only", "All of the above"], 
+            a: 3 // Correct Answer: c/d) All of the above [cite: 926]
+        },
+        { 
+            q: "Considerations for the development of cycling and walking facilities include: (I) Pavement width, (II) Network standards, (III) Destinations, (IV) Incorporation of existing routes.", 
+            options: ["I, II, III only", "II, III, IV only", "I, II, IV only", "All of the above"], 
+            a: 3 // Correct Answer: c/d) All of the above [cite: 941]
+        }
     ],
     10: [
-        { q: "Landscape is defined as a zone perceived by people (European Landscape Convention).", options: ["True", "False"], a: 0 },
-        { q: "Field Survey: Auguring is frequently used in river valleys.", options: ["True", "False"], a: 0 },
-        { q: "Impacts of Urban Development include Run-Off, Soil Erosion, and Nutrients/Toxins.", options: ["True", "False"], a: 0 },
-        { q: "Steps of HHRA: Hazard ID, Dose-Response, Exposure, Risk Char.", options: ["True", "False"], a: 0 },
-        { q: "Social cohesion refers to sense of belonging and community satisfaction.", options: ["True", "False"], a: 0 },
-        { q: "Multiplier Approach methods: Economic base, Input-Output, Keynesian.", options: ["True", "False"], a: 0 }
+        { 
+            q: "State True or False: As per the European landscape convention, landscape is defined as a zone or area as perceived by local people or visitors whose visual features are the result of natural/cultural factors.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 953]
+        },
+        { 
+            q: "The factors that contribute to the Landscape for Natural Factors are: (I) Geology, (II) Landforms, (III) Hydrology, (IV) Air and Climate.", 
+            options: ["I, II, III only", "II, III, IV only", "III, IV, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 965]
+        },
+        { 
+            q: "State True or False: Field Survey Techniques: Auguring is most frequently used in river valleys where deposition has covered the land surface.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 969]
+        },
+        { 
+            q: "The Test Pitting methods include: (I) Hand excavation of small pits, (II) Different sizes as per requirements, (III) Machine trenching.", 
+            options: ["I, II only", "II, III only", "III, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 983]
+        },
+        { 
+            q: "The Impact of Urban Development include: (I) Run-Off, (II) Soil Erosion, (III) Nutrients and toxic pollutant loadings (bioaccumulation, eutrophication).", 
+            options: ["I, II only", "II, III only", "III, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 997]
+        },
+        { 
+            q: "Steps of Human Health Risk Assessment (HHRA) are: (I) Hazard Identification, (II) Dose-Response Assessment, (III) Exposure, (IV) Risk Characterization/Deepening risk.", 
+            options: ["I, II, III only", "II, III, IV only", "III, IV, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 1012]
+        },
+        { 
+            q: "State True or False: Social Impact Assessment (SIA) is defined as estimating and appraising conditions of a society changed by large-scale application of high-technology.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 1016]
+        },
+        { 
+            q: "Methods frequently used for Measuring wider Economic Impact for the Multiplier Approach are: (I) Economic base Multiplier Model, (II) Input-Output Model, (III) Keynesian Multiplier.", 
+            options: ["I, II only", "II, III only", "III, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 1032]
+        },
+        { 
+            q: "State True or False: Social cohesion refers to people's sense of belonging to a community and community satisfaction.", 
+            options: ["True", "False"], 
+            a: 0 // Correct Answer: a) True [cite: 1037]
+        },
+        { 
+            q: "The Significance of Population changes are influenced by: (I) Existing size/structure, (II) Geographical distribution of immigrants, (III) Timing of changes.", 
+            options: ["I, II only", "II, III only", "III, I only", "All of the above"], 
+            a: 3 // Correct Answer: d) All of the above [cite: 1050]
+        }
     ],
-    11: [
-        { q: "Primary Zone includes project facilities, access routes, and employee accommodation.", options: ["True", "False"], a: 0 },
-        { q: "Life cycle Assessment: Upstream impact means how original materials are produced/processed.", options: ["True", "False"], a: 0 },
-        { q: "Risk Assessment steps: Hazard ID, Consequences, Likelihood, Acceptability.", options: ["True", "False"], a: 0 },
-        { q: "Cumulative Assessment (CIA) considers project + past/present/future effects.", options: ["True", "False"], a: 0 },
-        { q: "Environmental Management Plan (EMP) measures eliminate or offset adverse impacts.", options: ["True", "False"], a: 0 }
+11: [
+        { 
+            q: "State True or False: Primary Zone (Zone of direct impact) includes areas where project activities and facilities are located, including access routes, water/power networks, supply chains, and employee accommodation.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1059, 1063]
+        },
+        { 
+            q: "The critical purpose of a comprehensive Baseline is: (I) E&S impacts, (II) Risk/Opportunity, (III) Eligibility for compensation, (IV) Monitoring RAP, (V) ESMP preparation.", 
+            options: ["I, II, III, IV only", "I, II, III, V only", "II, III, IV, V only", "All of the above"], 
+            a: 3 // [cite: 1064, 1078]
+        },
+        { 
+            q: "Life cycle assessment: Upstream impact means:", 
+            options: [
+                "Where and how original materials are produced, processed, and manufactured", 
+                "How they are packaged and manufactured", 
+                "How they are used", 
+                "All of the above"
+            ], 
+            a: 0 // [cite: 1079, 1080]
+        },
+        { 
+            q: "State True or False: The following image depicts a General Life cycle flow diagram.", 
+            image: "lifecycle_diagram.png", // 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1111]
+        },
+        { 
+            q: "State True or False: By Hazardous events, we mean where humans or other species are exposed to a hazard at high levels and harm occurs very quickly.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1112, 1116]
+        },
+        { 
+            q: "Steps for Risk Assessment are: (I) Identify hazard, (II) Identify consequences, (III) Determine likelihood/uncertainty, (IV) Establish acceptability criteria.", 
+            options: ["I, II, III only", "II, III, IV only", "I, II, IV only", "All of the above"], 
+            a: 3 // [cite: 1117, 1132]
+        },
+        { 
+            q: "State True or False: The Purpose of Cumulative Assessment (CIA) is to consider the incremental contribution of the project together with effects from other past, present, and foreseeable future activities.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1135, 1137]
+        },
+        { 
+            q: "State True or False: Inter-Project Effects occur between different environmental topics within the same proposal as a result of direct effects.", 
+            options: ["True", "False"], 
+            a: 1 // [cite: 1138, 1140]
+        },
+        { 
+            q: "State True or False: As per World Bank, an Environmental Management Plan (EMP) consists of measures to eliminate, offset, or reduce adverse impacts to acceptable levels.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1141, 1144]
+        },
+        { 
+            q: "State True or False: The Equator Principle provides a financial industry benchmark for determining ways to assess and manage social and environmental risk.", 
+            options: ["True", "False"], 
+            a: 0 // [cite: 1145, 1147]
+        }
+    ],
+    12: [
+        { 
+            q: "Sample Question: What is the final stage of the EIA process?", 
+            options: ["Screening", "Scoping", "Monitoring and Auditing", "Decision Making"], 
+            a: 2 
+        },
+        // ADD REMAINING WEEK 12 QUESTIONS HERE
     ]
 };
 
@@ -288,14 +990,38 @@ function loadQuiz(week) {
     const questions = quizData[week] || [];
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';
-    sessionScore = 0; sessionAnswered = 0;
+    sessionScore = 0; 
+    sessionAnswered = 0;
     updateStats(questions.length);
+
+    if (questions.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding:20px;">No questions found for this week.</p>';
+        return;
+    }
 
     questions.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = `<h4>Q${idx + 1}: ${item.q}</h4>`;
         
+        // 1. Add the Question Text
+        let contentHtml = `<h4>Q${idx + 1}: ${item.q}</h4>`;
+        
+        // 2. Add the Table if it exists [cite: 74, 75]
+        if (item.table) {
+            let tableHtml = '<table style="width:100%; border-collapse:collapse; margin:15px 0; font-size:13px; border:1px solid #444;">';
+            item.table.forEach(row => {
+                tableHtml += `<tr style="border-bottom:1px solid #333;">
+                    <td style="padding:8px; border-right:1px solid #333; color:#bb86fc; font-weight:bold;">${row[0]}</td>
+                    <td style="padding:8px; color:#e0e0e0;">${row[1]}</td>
+                </tr>`;
+            });
+            tableHtml += '</table>';
+            contentHtml += tableHtml;
+        }
+
+        card.innerHTML = contentHtml;
+
+        // 3. Add the clickable options
         item.options.forEach((opt, oIdx) => {
             const btn = document.createElement('button');
             btn.className = 'option';
@@ -307,10 +1033,12 @@ function loadQuiz(week) {
                 
                 let isCorrect = (oIdx === item.a);
                 if(isCorrect) {
-                    btn.classList.add('correct'); sessionScore++;
+                    btn.classList.add('correct'); 
+                    sessionScore++;
                 } else {
                     btn.classList.add('wrong');
-                    card.querySelectorAll('.option')[item.a].classList.add('correct');
+                    const options = card.querySelectorAll('.option');
+                    options[item.a].classList.add('correct');
                     saveWrong(item.q, item.options[item.a]);
                 }
                 saveToLifeStats(isCorrect);
@@ -321,7 +1049,6 @@ function loadQuiz(week) {
         container.appendChild(card);
     });
 }
-
 function saveToLifeStats(isCorrect) {
     let lifeScore = parseInt(localStorage.getItem('lifeScore') || '0');
     let lifeTotal = parseInt(localStorage.getItem('lifeTotal') || '0');
