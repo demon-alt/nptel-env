@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NPTEL EIA Study Tool</title>
+    <style>
+        :root { --primary: #2c3e50; --success: #27ae60; --danger: #e74c3c; --bg: #f4f7f6; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; max-width: 600px; margin: 0 auto; padding: 10px; background: var(--bg); color: #333; }
+        
+        /* Mobile-First Header */
+        .header { position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 100; border-bottom: 1px solid #ddd; }
+        .stats-bar { display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-top: 5px; }
+        
+        select { width: 100%; padding: 15px; font-size: 16px; border-radius: 10px; border: 2px solid #2c3e50; background: white; appearance: none; }
+        
+        .progress-container { width: 100%; background: #dfe6e9; height: 12px; border-radius: 6px; margin: 10px 0; overflow: hidden; }
+        #progress-bar { width: 0%; height: 100%; background: var(--success); transition: width 0.4s ease; }
+
+        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; border: 1px solid #edf2f7; }
+        h4 { margin-top: 0; font-size: 17px; color: var(--primary); }
+
+        .option { display: block; width: 100%; padding: 16px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; background: #fff; font-size: 15px; font-weight: 500; }
+        .correct { background-color: #d4edda !important; border-color: var(--success) !important; color: #155724; }
+        .wrong { background-color: #f8d7da !important; border-color: var(--danger) !important; color: #721c24; }
+
+        /* Review Section */
+        #review-panel { display: none; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 2px solid var(--danger); }
+        .review-header { background: var(--danger); color: white; padding: 12px; font-weight: bold; text-align: center; display: flex; justify-content: space-between; align-items: center; }
+        .review-content { background: white; padding: 10px; max-height: 400px; overflow-y: auto; }
+        .wrong-entry { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 14px; }
+        .clear-btn { background: white; color: var(--danger); border: none; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <select id="week-selector" onchange="changeWeek()">
+        <option value="1">Week 1: Intro</option>
+        <option value="2">Week 2: Process</option>
+        <option value="3">Week 3: Agreements</option>
+        <option value="4">Week 4: Acts</option>
+        <option value="5">Week 5: Land</option>
+        <option value="6">Week 6: Screening</option>
+        <option value="7">Week 7: Modeling</option>
+        <option value="8">Week 8: Monitoring</option>
+        <option value="10">Week 10: Social</option>
+        <option value="11">Week 11: Risk</option>
+    </select>
+    <div class="progress-container"><div id="progress-bar"></div></div>
+    <div class="stats-bar">
+        <span>Score: <span id="score">0</span>/<span id="total-qs">0</span></span>
+        <span id="accuracy">0%</span>
+    </div>
+</div>
+
+<div id="quiz-container"></div>
+
+<div id="review-panel">
+    <div class="review-header">
+        <span>SAVED ERRORS</span>
+        <button class="clear-btn" onclick="clearReview()">CLEAR ALL</button>
+    </div>
+    <div class="review-content" id="wrong-log"></div>
+</div>
+
+<script>
+// Logic to load entire quizData from your previous turn...
+const quizData = {
+    1: [
+        { q: "Transported dust is not directly responsible for which of the following?", options: ["Human Respiratory Ailments", "Fertilization of Distant Forests", "Damaging Infrastructure", "Global Warming"], a: 3 },
+        { q: "Human activities have caused climate change and impacted ecosystems (IPCC-2014)?", options: ["True", "False"], a: 0 },
+        { q: "The normal extinction of species rate is between 0.1 and 1 species per 10,000 species per 100 years.", options: ["True", "False"], a: 0 },
+        { q: "Biomes are defined as a major ecological community of organisms adapted to particular climatic conditions.", options: ["True", "False"], a: 0 },
+        { q: "India is the third-largest fish-producing and second-largest aquaculture producer (FAO 2024).", options: ["True", "False"], a: 0 },
+        { q: "The Process through which methyl mercury is passed along the food chain is called:", options: ["Bio accumulation", "Bio magnification", "Bio conservation", "Bio acceleration"], a: 1 },
+        { q: "Key drivers of Land Change include Urbanization, Climate Change, Economic Development, and Tech.", options: ["I, III, IV only", "II, I, IV only", "IV, I, III only", "All of the above"], a: 3 },
+        { q: "Approximately 30% of Total Geographical Area of India is undergoing desertification/degradation.", options: ["True", "False"], a: 0 },
+        { q: "Economic Water Scarcity is where storage, treatment, and conveyance infrastructure are Lacking.", options: ["True", "False"], a: 0 },
+        { q: "Match: P-Eutrophication, Q-Organic pollutants, R-Salinity", table: [["Eutrophication", "Natural ageing of lakes"], ["Organic Pollutants", "Microbial decomposition"], ["Salinity", "Increase in dissolved minerals"]], options: ["P-II, Q-I, R-III", "P-II, Q-III, R-I", "P-III, Q-I, R-II"], a: 2 }
+    ],
+    2: [
+        { q: "The Brundtland Report (Our Common Future) was released by:", options: ["IPCC", "UNEP", "WCED", "World Bank"], a: 2 },
+        { q: "Oil & gas transportation pipeline in eco-sensitive areas falls under:", options: ["Category A", "Category B", "Category B1", "Category B2"], a: 0 },
+        { q: "Any project in Category 'A' will be treated as 'B' if located within 10km of Protected Areas.", options: ["True", "False"], a: 1 },
+        { q: "Townships covering area ≥50 hectares fall under Category A (EIA 2006).", options: ["True", "False"], a: 1 },
+        { q: "What is the correct sequence of the EIA process?", options: ["Project screening → Prediction → Evaluation → Review → Decision", "Screening → Evaluation → Prediction → Review → Decision", "Prediction → Screening → Evaluation → Review → Decision", "Screening → Prediction → Review → Evaluation → Decision"], a: 0 },
+        { q: "Match Nature/Magnitude: Direct or Indirect vs High/Moderate/Low.", options: ["Nature-Direct/Indirect; Magnitude-High/Mod/Low", "Nature-High/Mod; Magnitude-Direct/Indirect"], a: 0 },
+        { q: "Match Timing/Uncertainty: Immediate/Long-term vs Low/High probability.", options: ["Timing-Immediate; Uncertainty-Low/High prob", "Timing-Low/High prob; Uncertainty-Immediate"], a: 0 },
+        { q: "The concept of 'equality and deprivation' emphasizes that:", options: ["Benefits are equal", "Nobody experiences loss", "Impacts are uneven", "Only total benefits matter"], a: 2 },
+        { q: "UK Equality Act requires impact reviews to:", options: ["Ignore social impacts", "Treat all the same", "Consider needs of persons with disabilities", "Apply only to private companies"], a: 2 },
+        { q: "Cultural Impact Assessment (CIA) in New Zealand documents Māori cultural values.", options: ["True", "False"], a: 0 }
+    ],
+    3: [
+        { q: "UNCLOS III is associated with:", options: ["Aviation safety", "Comprehensive legal regime for oceans", "Ban on nuclear power", "Fisheries only"], a: 1 },
+        { q: "The US Endangered Species Act (ESA) was enacted in 1973.", options: ["True", "False"], a: 0 },
+        { q: "UNESCO is the lead agency for UN Decade of Education for Sustainable Development.", options: ["True", "False"], a: 0 },
+        { q: "Nagoya Protocol (2010) core purpose is:", options: ["Carbon credits", "Access and Benefit-Sharing (ABS)", "Nuclear ban", "Fisheries"], a: 1 },
+        { q: "Effective EIA system requires (Select All):", options: ["Broad definition of environment", "Duty to mitigate", "Mitigation in EIA report", "Procedural guidance", "All of the above"], a: 4 },
+        { q: "Rio Declaration (1992) is soft law; Espoo Convention (1991) is binding.", options: ["True", "False"], a: 0 },
+        { q: "Governance approaches to mitigate Air Pollution include:", options: ["Technology standards", "Planning regimes", "Market interventions", "Cooperative forums", "All of the above"], a: 4 },
+        { q: "WHO Guideline Values are considered:", options: ["Advisory Air Quality Standards", "US Standards", "EU Limit Values", "National Standards"], a: 0 }
+    ],
+    4: [
+        { q: "Presence of E. coli in drinking water is a sign of:", options: ["Industrial contamination", "Pesticide contamination", "Fecal contamination", "High hardness"], a: 2 },
+        { q: "Water (Prevention and Control of Pollution) Act was enacted in:", options: ["1974", "1981", "1986", "1972"], a: 0 },
+        { q: "Bonn Convention (CMS) suggests EIA should identify impacts on:", options: ["Local residents", "Industrial costs", "Migratory species habitats/routes", "Terrestrial only"], a: 2 },
+        { q: "Marine Protected Areas (MPAs) are ocean spaces where human activities are strictly regulated.", options: ["True", "False"], a: 0 },
+        { q: "Which law is India's 'Umbrella' environmental legislation?", options: ["Forest Act 1980", "Wildlife Act 1972", "Environment (Protection) Act 1986", "Indian Forest Act 1927"], a: 2 }
+    ],
+    5: [
+        { q: "Eminent domain means:", options: ["Regulation without compensation", "Taking private property for public use with compensation", "Private company power", "Criminal seizure"], a: 1 },
+        { q: "Resettlement in ESIA refers to:", options: ["Voluntary moving", "Temporary migration", "Physical relocation/loss of assets due to land acquisition", "Disaster rebuilding"], a: 2 },
+        { q: "RFCTLARR Act 2013 restricts acquisition of irrigated multi-cropped land for food security.", options: ["True", "False"], a: 0 },
+        { q: "Public hearing during SIA is meant to:", options: ["Finalize cash", "Approve design", "Ascertain views of affected families", "Issue land award"], a: 2 },
+        { q: "World Bank social risks include created/deepened inequality and social conflict.", options: ["True", "False"], a: 0 },
+        { q: "LVIA technical guidance note TGN 06/19 is by:", options: ["Hong Kong EPD", "The Landscape Institute", "World Bank", "IFC"], a: 1 }
+    ],
+    6: [
+        { q: "Main purpose of EIA screening:", options: ["Final report", "Decide if EIA is required", "Approve project", "Consultation"], a: 1 },
+        { q: "Case-by-case screening allows:", options: ["Fixed thresholds", "Common sense/professional judgment", "No discretion", "Speed"], a: 1 },
+        { q: "Photomontage is:", options: ["Sketch", "Superimposed image on a real photo", "Satellite map", "Mitigation table"], a: 1 },
+        { q: "Causal network diagram represents:", options: ["List of parameters", "Cause-and-effect nodes/links", "Financial model", "Legal checklist"], a: 1 },
+        { q: "Biosphere Reserve zones are:", options: ["Uniform", "Two: Protect/Industrial", "Core, Buffer, Transition", "Core only"], a: 2 },
+        { q: "Cultural keystone species indicator:", options: ["Chlorophyll", "Presence in language/ceremonies", "Fast reproduction", "Large range"], a: 1 },
+        { q: "Equator Principles are:", options: ["Govt law", "Engineering standard", "Risk management framework for financial institutions", "UN treaty"], a: 2 }
+    ],
+    7: [
+        { q: "Analysis of climatic factors for adaptation includes extremes and changes in norms.", options: ["I, III only", "II, I only", "II, III only", "All of the above"], a: 3 },
+        { q: "Match Odour models: P-Risk, Q-Semi-quant, R-Dispersion.", options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], a: 2 },
+        { q: "Match Hydro: P-Base flow, Q-Return period, R-Drainage basin.", options: ["P-I, Q-II, R-III", "P-III, Q-I, R-II", "P-II, Q-III, R-I"], a: 2 },
+        { q: "Sustainable development emphasizes balance between environment, economy, and society.", options: ["True", "False"], a: 0 },
+        { q: "Intergenerational equity refers to fair use of resources for future generations.", options: ["True", "False"], a: 0 },
+        { q: "If multi-crop land is acquired (Sec 10), the Act requires:", options: ["Cash only", "Job guarantee", "Equivalent wasteland development/investment", "Relocation"], a: 2 }
+    ],
+    8: [
+        { q: "Priority ecosystems are those beneficiaries depend on to a great extent with limited alternatives.", options: ["True", "False"], a: 0 },
+        { q: "Scoping determines study area, methodologies, and key issues.", options: ["True", "False"], a: 0 },
+        { q: "Valued Ecosystem Components (VEC) qualify by ecological or socioeconomic value.", options: ["True", "False"], a: 0 },
+        { q: "Ecosystem service supply is max amount drawn without damaging capacity.", options: ["True", "False"], a: 0 },
+        { q: "Implementation Monitoring checks planning approvals and mitigation carried out.", options: ["True", "False"], a: 0 },
+        { q: "Agriculture is the sector that consumes the most water.", options: ["True", "False"], a: 0 },
+        { q: "Habitat is a condition required to support a species/community in a location.", options: ["True", "False"], a: 0 }
+    ],
+    10: [
+        { q: "Landscape is defined as a zone perceived by people (European Landscape Convention).", options: ["True", "False"], a: 0 },
+        { q: "Field Survey: Auguring is frequently used in river valleys.", options: ["True", "False"], a: 0 },
+        { q: "Impacts of Urban Development include Run-Off, Soil Erosion, and Nutrients/Toxins.", options: ["True", "False"], a: 0 },
+        { q: "Steps of HHRA: Hazard ID, Dose-Response, Exposure, Risk Char.", options: ["True", "False"], a: 0 },
+        { q: "Social cohesion refers to sense of belonging and community satisfaction.", options: ["True", "False"], a: 0 },
+        { q: "Multiplier Approach methods: Economic base, Input-Output, Keynesian.", options: ["True", "False"], a: 0 }
+    ],
+    11: [
+        { q: "Primary Zone includes project facilities, access routes, and employee accommodation.", options: ["True", "False"], a: 0 },
+        { q: "Life cycle Assessment: Upstream impact means how original materials are produced/processed.", options: ["True", "False"], a: 0 },
+        { q: "Risk Assessment steps: Hazard ID, Consequences, Likelihood, Acceptability.", options: ["True", "False"], a: 0 },
+        { q: "Cumulative Assessment (CIA) considers project + past/present/future effects.", options: ["True", "False"], a: 0 },
+        { q: "Environmental Management Plan (EMP) measures eliminate or offset adverse impacts.", options: ["True", "False"], a: 0 }
+    ]
+};
+
+let score = 0;
+let answered = 0;
+
+// On Page Load: Restore last session
+window.onload = () => {
+    const savedWeek = localStorage.getItem('lastWeek') || "1";
+    document.getElementById('week-selector').value = savedWeek;
+    loadQuiz(savedWeek);
+    renderSavedWrongs();
+};
+
+function changeWeek() {
+    const val = document.getElementById('week-selector').value;
+    localStorage.setItem('lastWeek', val);
+    loadQuiz(val);
+}
+
+function loadQuiz(week) {
+    const questions = quizData[week] || [];
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    score = 0; answered = 0;
+    updateStats(questions.length);
+
+    questions.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<h4>Q${idx + 1}: ${item.q}</h4>`;
+        
+        item.options.forEach((opt, oIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option';
+            btn.innerText = opt;
+            btn.onclick = () => {
+                if(card.classList.contains('done')) return;
+                card.classList.add('done');
+                answered++;
+                if(oIdx === item.a) {
+                    btn.classList.add('correct'); score++;
+                } else {
+                    btn.classList.add('wrong');
+                    card.querySelectorAll('.option')[item.a].classList.add('correct');
+                    saveWrong(item.q, item.options[item.a]);
+                }
+                updateStats(questions.length);
+            };
+            card.appendChild(btn);
+        });
+        container.appendChild(card);
+    });
+}
+
+function saveWrong(q, a) {
+    let wrongs = JSON.parse(localStorage.getItem('wrongQuestions') || '[]');
+    wrongs.push({q, a});
+    localStorage.setItem('wrongQuestions', JSON.stringify(wrongs));
+    renderSavedWrongs();
+}
+
+function renderSavedWrongs() {
+    const wrongs = JSON.parse(localStorage.getItem('wrongQuestions') || '[]');
+    const log = document.getElementById('wrong-log');
+    const panel = document.getElementById('review-panel');
+    if(wrongs.length === 0) { panel.style.display = 'none'; return; }
+    
+    panel.style.display = 'block';
+    log.innerHTML = wrongs.map(w => `
+        <div class="wrong-entry">
+            <strong>Q:</strong> ${w.q}<br>
+            <span style="color:var(--success)"><strong>A:</strong> ${w.a}</span>
+        </div>
+    `).join('');
+}
+
+function clearReview() {
+    localStorage.removeItem('wrongQuestions');
+    renderSavedWrongs();
+}
+
+function updateStats(total) {
+    document.getElementById('score').innerText = score;
+    document.getElementById('total-qs').innerText = total;
+    document.getElementById('progress-bar').style.width = total > 0 ? (answered / total) * 100 + '%' : '0%';
+    document.getElementById('accuracy').innerText = answered > 0 ? Math.round((score / answered) * 100) + '%' : '0%';
+}
+</script>
+</body>
+</html>
